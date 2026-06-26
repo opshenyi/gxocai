@@ -1,6 +1,7 @@
 import { catalogueListComponent } from '../view/CatalogueListComponent';
 import CatalogueViewModel from '../viewmodel/CatalogueViewModel';
 import { HdsTabs, HdsTabsController, hdsMaterial } from '@kit.UIDesignKit';
+import { window } from '@kit.ArkUI';
 
 @Entry
 @Component
@@ -8,6 +9,25 @@ struct Index {
   private controller: HdsTabsController = new HdsTabsController();
   @State currentTab: number = 0;
   @State isMiniBarExpanded: boolean = true;
+  @State statusBarHeight: number = 0;
+  @State navBarHeight: number = 0;
+
+  aboutToAppear(): void {
+    window.getLastWindow(this.getUIContext().getHostContext()).then((windowClass: window.Window) => {
+      // 获取状态栏高度（单位为px，需要转换为vp）
+      let systemAvoidArea = windowClass.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM);
+      this.statusBarHeight = this.getUIContext().px2vp(systemAvoidArea.topRect.height);
+
+      // 监听避让区变化
+      windowClass.on('avoidAreaChange', (data) => {
+        if (data.type === window.AvoidAreaType.TYPE_SYSTEM) {
+          this.statusBarHeight = this.getUIContext().px2vp(data.area.topRect.height);
+        }
+      });
+    }).catch((err: Error) => {
+      console.error('Failed to get window. Cause: ' + JSON.stringify(err));
+    });
+  }
 
   @Builder
   miniBarBuilder() {
@@ -138,5 +158,6 @@ struct Index {
     .height('100%')
     .backgroundColor(Color.White)
     .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
+    .padding({ top: this.statusBarHeight })
   }
 }
