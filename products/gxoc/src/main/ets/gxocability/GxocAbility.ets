@@ -19,8 +19,24 @@ export default class GxocAbility extends UIAbility {
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
-    // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
+
+    // 设置沉浸式：全屏布局
+    windowStage.getMainWindow().then((windowClass: window.Window) => {
+      // 设置全屏布局
+      windowClass.setWindowLayoutFullScreen(true);
+
+      // 设置状态栏和导航栏透明
+      let systemBarProperties: window.SystemBarProperties = {
+        statusBarColor: '#00000000',
+        navigationBarColor: '#00000000',
+        statusBarContentColor: '#FFFFFF',
+        navigationBarContentColor: '#FFFFFF'
+      };
+      windowClass.setWindowSystemBarProperties(systemBarProperties);
+    }).catch((err: Error) => {
+      hilog.error(DOMAIN, 'testTag', 'Failed to set immersive mode. Cause: %{public}s', JSON.stringify(err));
+    });
 
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {
@@ -32,17 +48,14 @@ export default class GxocAbility extends UIAbility {
   }
 
   onWindowStageDestroy(): void {
-    // Main window is destroyed, release UI related resources
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
   }
 
   onForeground(): void {
-    // Ability has brought to foreground
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onForeground');
   }
 
   onBackground(): void {
-    // Ability has back to background
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onBackground');
   }
 }
