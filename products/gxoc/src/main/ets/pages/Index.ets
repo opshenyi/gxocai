@@ -1,12 +1,13 @@
 import { catalogueListComponent } from '../view/CatalogueListComponent';
-import { ImmersiveTitleBar } from '../view/ImmersiveTitleBar';
 import CatalogueViewModel from '../viewmodel/CatalogueViewModel';
-import { HdsTabs, HdsTabsController, hdsMaterial } from '@kit.UIDesignKit';
+import { HdsNavigation, HdsTabs, HdsTabsController, hdsMaterial } from '@kit.UIDesignKit';
+import { CatalogueItemData } from '../viewmodel/CatalogueItemData';
 
 @Entry
 @Component
 struct Index {
   private controller: HdsTabsController = new HdsTabsController();
+  private scroller: Scroller = new Scroller();
   @State currentTab: number = 0;
   @State isMiniBarExpanded: boolean = true;
 
@@ -47,23 +48,26 @@ struct Index {
     .padding({ left: 10, right: 10 })
   }
 
-  @Builder
-  TabContentBuilder(title: string) {
-    Column() {
-      catalogueListComponent(this.getUIContext(), CatalogueViewModel.getCatalogueData());
-    }
-    .width('100%')
-    .height('100%')
-    .backgroundColor($r('sys.color.ohos_id_color_sub_background'))
-  }
-
   build() {
-    Column() {
-      ImmersiveTitleBar({ title: '智慧养老' })
-
+    HdsNavigation() {
       HdsTabs({ controller: this.controller }) {
         TabContent() {
-          this.TabContentBuilder('首页')
+          List({ scroller: this.scroller }) {
+            ForEach(CatalogueViewModel.getCatalogueData(), (item: CatalogueItemData) => {
+              ListItem() {
+                Text(item.title)
+                  .fontSize(16)
+                  .width('100%')
+                  .height(56)
+                  .padding({ left: 16 })
+              }
+            }, (item: CatalogueItemData) => item.id.toString())
+          }
+          .width('100%')
+          .height('100%')
+          .clip(false)
+          .scrollBar(BarState.Off)
+          .backgroundColor($r('sys.color.ohos_id_color_sub_background'))
         }
         .tabBar(new BottomTabBarStyle($r('sys.media.ohos_ic_public_clock'), '首页'))
 
@@ -137,8 +141,17 @@ struct Index {
         this.currentTab = index;
       })
     }
-    .width('100%')
+    .titleBar({
+      content: {
+        title: {
+          mainTitle: '智慧养老'
+        }
+      },
+      enableComponentSafeArea: true
+    })
+    .hideBackButton(true)
+    .bindToScrollable([this.scroller])
     .height('100%')
-    .backgroundColor(Color.White)
+    .width('100%')
   }
 }
