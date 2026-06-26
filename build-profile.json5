@@ -1,12 +1,26 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\Shenyi\\.ohos\\config\\default_kxb_aiyk_lcT5UhHYwMHhI2Wh2SsJOWR17p3U2AHR148tOEYFl-M=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B108DD248A0892748302726814FD80317316D1792EA765C49855BB313EB47B34B982DD5E7B86056",
+          "profile": "C:\\Users\\Shenyi\\.ohos\\config\\default_kxb_aiyk_lcT5UhHYwMHhI2Wh2SsJOWR17p3U2AHR148tOEYFl-M=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\Shenyi\\.ohos\\config\\default_kxb_aiyk_lcT5UhHYwMHhI2Wh2SsJOWR17p3U2AHR148tOEYFl-M=.p12",
+          "storePassword": "0000001BD27B521C01159B0B836F195086FA4749A3F5CF5CEE47D7D51E6F11C069EBE032245E066F327014"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",
         "signingConfig": "default",
         "targetSdkVersion": "6.1.1(24)",
-        "compatibleSdkVersion": "6.1.1(24)",
+        "compatibleSdkVersion": "6.1.0(23)",
         "runtimeOS": "HarmonyOS",
         "buildOption": {
           "strictMode": {
