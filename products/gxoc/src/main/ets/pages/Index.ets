@@ -7,6 +7,7 @@ import { HdsTabs, HdsTabsController, hdsMaterial } from '@kit.UIDesignKit';
 struct Index {
   private controller: HdsTabsController = new HdsTabsController();
   @State currentTab: number = 0;
+  @State isMiniBarExpanded: boolean = true;
 
   @Builder
   miniBarBuilder() {
@@ -26,11 +27,11 @@ struct Index {
       Column({ space: 2 }) {
         Text('快速操作')
           .fontSize(12)
-          .fontColor('#FFFFFF')
+          .fontColor(this.isMiniBarExpanded ? '#000000' : '#FFFFFF')
           .fontWeight(FontWeight.Medium)
         Text('点击展开菜单')
           .fontSize(10)
-          .fontColor('#FFFFFF')
+          .fontColor(this.isMiniBarExpanded ? '#000000' : '#FFFFFF')
           .maxLines(1)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
       }
@@ -122,6 +123,9 @@ struct Index {
           miniBarBuilder: () => this.miniBarBuilder(),
           miniBarStyle: 1,
           miniBarWidth: { smallWidth: 200, mediumWidth: 220, largeWidth: 240 },
+          onBarStyleChange: (miniBarStyle: number, tabBarStyle: number) => {
+            this.isMiniBarExpanded = miniBarStyle === 1;
+          },
           enableMiniBarBackground: true,
           enableMiniBarClip: true
         }
