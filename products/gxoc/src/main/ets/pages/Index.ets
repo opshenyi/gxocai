@@ -157,7 +157,6 @@ struct Index {
     .width('100%')
     .height('100%')
     .backgroundColor(Color.White)
-    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
     .padding({ top: this.statusBarHeight })
   }
 }
