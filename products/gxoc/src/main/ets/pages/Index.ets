@@ -26,11 +26,11 @@ struct Index {
       Column({ space: 2 }) {
         Text('快速操作')
           .fontSize(12)
-          .fontColor('#182431')
+          .fontColor('#FFFFFF')
           .fontWeight(FontWeight.Medium)
         Text('点击展开菜单')
           .fontSize(10)
-          .fontColor('#8D9299')
+          .fontColor('#FFFFFF')
           .maxLines(1)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
       }
